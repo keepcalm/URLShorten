@@ -1,0 +1,14 @@
+[
+{
+"modid": "URLShorten",
+"name": "URL Shortener",
+"description": "A mod which shortens all URLs in chat using tinyurl\nThanks to daringfireball.net for the pattern to match websites!",
+"version": "1.4.2-0",
+"mcversion": "1.4.2",
+"credits": "DaringFireball.net",
+"authors": [
+	"keepcalm"
+	],
+"dependencies": [ "mod_MinecraftForge" ]
+}
+]
