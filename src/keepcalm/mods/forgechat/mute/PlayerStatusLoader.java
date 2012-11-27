@@ -1,5 +1,6 @@
 package keepcalm.mods.forgechat.mute;
 
+import keepcalm.mods.forgechat.ForgeChat;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.INetworkManager;
@@ -15,8 +16,8 @@ public class PlayerStatusLoader implements IConnectionHandler {
 	public void playerLoggedIn(Player player, NetHandler netHandler,
 			INetworkManager manager) {
 		EntityPlayer guy = (EntityPlayer) player;
-		if (MuteContainer.conf.containsKey(guy.username.toLowerCase())) {
-			MutedRegistry.setPlayerCanChat(guy.username, Boolean.parseBoolean( MuteContainer.conf.getProperty(guy.username.toLowerCase())));
+		if (ForgeChat.conf.containsKey(guy.username.toLowerCase())) {
+			MutedRegistry.setPlayerCanChat(guy.username, Boolean.parseBoolean( ForgeChat.conf.getProperty(guy.username.toLowerCase())));
 		}
 	}
 

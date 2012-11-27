@@ -1,10 +1,14 @@
 package keepcalm.mods.forgechat.urlshortener;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import keepcalm.mods.forgechat.ForgeChat;
 import keepcalm.mods.forgecore.ChatColor;
-
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.ServerChatEvent;
 
@@ -12,6 +16,31 @@ import com.google.common.base.Joiner;
 
 public class ShortenURLHandler {
 
+	public static String shortenURL(String currentURL) {
+		try {
+			URL libDownload = new URL("http://tinyurl.com/api-create.php?url=" + currentURL);
+			URLConnection connection = libDownload.openConnection();
+			connection.setConnectTimeout(5000);
+			connection.setReadTimeout(5000);
+			connection.setRequestProperty("User-Agent", "MC URL Shortener");
+			char[] cb = new char[700];
+			InputStream is = connection.getInputStream();
+			InputStreamReader bis = new InputStreamReader(is);
+			bis.read(cb);
+			String x = String.valueOf(cb);
+			x = x.replace('\0', ' ').trim();
+			System.out.println(x);
+			return x;
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return currentURL;
+		}
+
+	}
+	
 	@ForgeSubscribe
 	public void onChat(ServerChatEvent ev) {
 		String msg = ev.line;
@@ -19,7 +48,7 @@ public class ShortenURLHandler {
 		String[] spaces = msg.split(" ");
 		Pattern urlMatcher = Pattern.compile("(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))");
 		Pattern chatMatcher = Pattern.compile(".*&(0|1|2|3|4|5|6|7|8|9|a|b|c|d|e|f|k|l|m|n|o|r).*");
-		if (URLMain.parseChatColours) {
+		if (ForgeChat.parseChatColours) {
 			int j = 0;
 			for (String i : spaces) {
 				Matcher x = urlMatcher.matcher(i);
@@ -41,7 +70,7 @@ public class ShortenURLHandler {
 			}
 			ev.line = Joiner.on(' ').join(spaces);
 		}
-		if (URLMain.shortenURLs) {
+		if (ForgeChat.shortenURLs) {
 			boolean foundUsername = false;
 			String origUserString = "";
 
@@ -50,7 +79,7 @@ public class ShortenURLHandler {
 			for (String i : spaces) {
 				Matcher j = urlMatcher.matcher(i);
 				if (j.matches()) {
-					result = URLMain.shortenURL(i) + " ";
+					result = shortenURL(i) + " ";
 				}
 				x++;
 			}

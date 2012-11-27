@@ -1,0 +1,32 @@
+[
+{
+"modid": "URLShorten",
+"name": "URL Shortener",
+"description": "A mod which shortens all URLs in chat using tinyurl\nThanks to daringfireball.net for the pattern to match websites!",
+"version": "1.4.4-0",
+"mcversion": "1.4.4-0",
+"credits": "DaringFireball.net",
+"authors": [
+	"keepcalm"
+	],
+"dependencies": [ "mod_MinecraftForge", "ForgeCore_Dummy" ],
+"parent": "ForgeChat_Dummy"
+},
+{
+"modid": "ForgeChat_Dummy",
+"name": "ForgeChat",
+"version": "1.4.4-0",
+"description": "Chat-related commands and functions for MinecraftForge",
+"authors": [
+    "keepcalm"
+]
+}
+{
+"modid": "ForgeMute",
+"name": "ForgeMute",
+"version": "1.4.4-0",
+"authors": [
+    "keepcalm"
+]
+}
+]

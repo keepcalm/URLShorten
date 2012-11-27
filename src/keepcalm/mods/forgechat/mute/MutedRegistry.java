@@ -3,6 +3,9 @@ package keepcalm.mods.forgechat.mute;
 import java.util.HashMap;
 import java.util.Map;
 
+import keepcalm.mods.forgechat.ForgeChat;
+import keepcalm.mods.forgecore.api.permissions.Permissions;
+
 public class MutedRegistry {
 	
 	private static Map<String,Boolean> canChat = new HashMap<String, Boolean>();
@@ -12,7 +15,12 @@ public class MutedRegistry {
 	}
 	
 	public static boolean canPlayerChat(String name) {
-		return canChat.get(name.toLowerCase());
+		try {
+			return canChat.get(name.toLowerCase());
+		}
+		catch (Exception e) {
+			return true;
+		}
 	}
 	
 	public static void toggleMute(String name) {
@@ -23,7 +31,7 @@ public class MutedRegistry {
 	
 	public static void saveConfiguration() {
 		for (String i : canChat.keySet()) {
-			MuteContainer.conf.setProperty(i, canChat.get(i).toString());
+			ForgeChat.conf.setProperty(i, canChat.get(i).toString());
 		}
 	}
 }

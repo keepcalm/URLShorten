@@ -1,10 +1,13 @@
 package keepcalm.mods.forgechat.mute;
 
+import keepcalm.mods.forgecore.ChatColor;
 import keepcalm.mods.forgecore.api.permissions.Permissions;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CommandBase;
 import net.minecraft.src.CommandException;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandSender;
+import net.minecraft.src.Packet3Chat;
 
 public class CommandMute extends CommandBase {
 	
@@ -39,6 +42,9 @@ public class CommandMute extends CommandBase {
 		catch (Exception e) {
 			throw new CommandException(var2[0] + " is not logged on right now!");
 		}
+		
+		MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayers(new Packet3Chat(ChatColor.GRAY + "[" + var1.getCommandSenderName() + ": Muting " + var2[0] +"]"));
+		var1.sendChatToPlayer("Muted.");
 		
 	}
 
