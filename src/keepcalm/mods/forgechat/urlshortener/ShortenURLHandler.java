@@ -16,9 +16,38 @@ import com.google.common.base.Joiner;
 
 public class ShortenURLHandler {
 
-	public static String shortenURL(String currentURL) {
+	//TODO: put shorteners in another class
+	//create a generic stream reader class
+	public static String shortenURLTinyURL(String currentURL) {
 		try {
+			currentURL = java.net.URLEncoder.encode(currentURL, "UTF-8");
 			URL libDownload = new URL("http://tinyurl.com/api-create.php?url=" + currentURL);
+			URLConnection connection = libDownload.openConnection();
+			connection.setConnectTimeout(5000);
+			connection.setReadTimeout(5000);
+			connection.setRequestProperty("User-Agent", "MC URL Shortener");
+			char[] cb = new char[700];
+			InputStream is = connection.getInputStream();
+			InputStreamReader bis = new InputStreamReader(is);
+			bis.read(cb);
+			String x = String.valueOf(cb);
+			x = x.replace('\0', ' ').trim();
+			System.out.println(x);
+			return x;
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return currentURL;
+		}
+
+	}
+	
+	public static String shortenURLISGD(String currentURL) {
+		try {
+			currentURL = java.net.URLEncoder.encode(currentURL, "UTF-8");
+			URL libDownload = new URL("http://is.gd/create.php?format=simple&url=" + currentURL);
 			URLConnection connection = libDownload.openConnection();
 			connection.setConnectTimeout(5000);
 			connection.setReadTimeout(5000);
@@ -79,7 +108,12 @@ public class ShortenURLHandler {
 			for (String i : spaces) {
 				Matcher j = urlMatcher.matcher(i);
 				if (j.matches()) {
-					result = shortenURL(i) + " ";
+					//if(URL.getConfig() or something = tinyurl) {
+					result = shortenURLTinyURL(i) + " ";
+					//}
+					//if(URL.getConfig() or something = isgd) {
+					//result = shortenURLISGD(i) + " ";
+					//}
 				}
 				x++;
 			}
